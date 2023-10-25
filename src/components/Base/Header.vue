@@ -3,7 +3,7 @@
     class="header d-flex align-items-center justify-content-space-between"
   >
     <h1 class="d-flex">
-      <router-link to="/weather-app/"><IconsLogo />{{ title }}</router-link>
+      <router-link to="/weather-app"><IconsLogo />{{ title }}</router-link>
     </h1>
     <nav class="header-nav d-flex">
       <router-link
