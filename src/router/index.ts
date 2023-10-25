@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/weater-app/',
       component: HomeView,
-      name: 'home'
+      name: 'home',
       meta: {
         title: 'Weather app',
       },
@@ -16,7 +16,7 @@ const router = createRouter({
     {
       path: '/weater-app/favorites',
       component: FavoritesView,
-      name: 'favorites'
+      name: 'favorites',
       meta: {
         title: 'Five day forecast',
       },
