@@ -24,6 +24,4 @@ const router = createRouter({
   ],
 });
 
-router.push('/weather-app/');
-
 export default router;
