@@ -1,21 +1,29 @@
-import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import FavoritesView from '../views/FavoritesView.vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import FavoritesView from '@/views/FavoritesView.vue';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/weather-app',
       component: HomeView,
+      name: 'home',
+      meta: {
+        title: 'Weather app',
+      },
     },
     {
-      path: '/favorite',
-      name: 'favorite',
+      path: '/weather-app/favorites',
       component: FavoritesView,
+      name: 'favorites',
+      meta: {
+        title: 'Five day forecast',
+      },
     },
   ],
 });
+
+router.push('/weather-app');
 
 export default router;
