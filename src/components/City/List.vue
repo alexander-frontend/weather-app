@@ -130,7 +130,7 @@ export default defineComponent({
       console.log(data);
       const { latitude, longitude, city, country } = data;
 
-      const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=${this.$i18n.locale}`;
+      const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.apiKey}&units=metric&lang=${this.$i18n.locale}`;
 
       let state = '';
 
