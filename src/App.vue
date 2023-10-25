@@ -8,7 +8,7 @@
         </transition>
       </router-view>
     </main>
-    <Footer class="header justify-content-space-between" :title="title" />
+    <Footer />
   </div>
 </template>
 
