@@ -1,11 +1,9 @@
-## Weather app
+# Weather app
 
-Targer: Implementation of a weather application using the API https://openweathermap.org/
+Targer: Implementation of a weather application using the API https://openweathermap.org/.
 Without using css frameworks, ui libraries.
 
-## Setup
-
-Make sure to install the dependencies:
+# Setup
 
 ```bash
 # npm
@@ -18,13 +16,34 @@ pnpm install
 yarn install
 ```
 
-## Compile and Hot-Reload for Development
+# Compile and Hot-Reload for Development
 
 Make sure to install the dependencies:
 
 ```bash
 # npm
 npm run dev
+```
+
+# API Keys
+
+This project requires API keys to access two third-party services: OpenWeatherMap and Mapbox. These keys are essential for specific functionalities within the application. Below are instructions on how to obtain and use these keys.
+
+## OpenWeatherMap API Key (VITE_API_KEY)
+
+The OpenWeatherMap API key is used for retrieving weather information. To use this key, follow these steps:
+
+1. Sign up on the OpenWeatherMap website.
+
+2. Obtain your API key.
+
+3. Set it in the VITE_API_KEY variable in your project's .env file.
+
+Example .env file:
+
+```bash
+VITE_API_KEY=YOUR_OPENWEATHERMAP_API_KEY
+VITE_API_URL=https://api.openweathermap.org/data/2.5
 ```
 
 # Vue 3 + TypeScript + Vite
