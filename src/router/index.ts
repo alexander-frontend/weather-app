@@ -1,9 +1,9 @@
 import HomeView from '../views/HomeView.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import FavoritesView from '@/views/FavoritesView.vue';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/weather-app',
@@ -20,16 +20,6 @@ const router = createRouter({
       meta: {
         title: 'Five day forecast',
       },
-    },
-    {
-      path: '/404',
-      component: HomeView,
-      name: 'home',
-    },
-    {
-      path: '/:pathMatch(.*)*',
-      component: HomeView,
-      name: 'home',
     },
   ],
 });

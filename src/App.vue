@@ -2,7 +2,7 @@
   <div class="container d-flex flex-column">
     <Header class="header justify-content-space-between" :title="title" />
     <main class="d-flex justify-content-center">
-      <router-view :key="$route.path" v-slot="{ Component }">
+      <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
           <component :is="Component"></component>
         </transition>
