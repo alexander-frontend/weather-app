@@ -19,7 +19,7 @@
         v-if="
           cityStore.weatherData.length &&
           cityStore.weatherData.length < maxCities &&
-          $route.path == '/weather-app/'
+          $route.path == '/weather-app'
         "
       >
         <button class="btn" @click="addCity">{{ $t('Add_city') }}</button>
