@@ -127,7 +127,6 @@ export default defineComponent({
       return Object.values(groupedData);
     },
     async weatherLocation(data) {
-      console.log(data);
       const { latitude, longitude, city, country } = data;
 
       const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.apiKey}&units=metric&lang=${this.$i18n.locale}`;
