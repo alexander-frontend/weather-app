@@ -3,7 +3,7 @@
 Targer: Implementation of a weather application using the API https://openweathermap.org/.
 Without using css frameworks, ui libraries.
 
-# Setup
+## Setup
 
 ```bash
 # npm
@@ -16,7 +16,7 @@ pnpm install
 yarn install
 ```
 
-# Compile and Hot-Reload for Development
+## Compile and Hot-Reload for Development
 
 Make sure to install the dependencies:
 
@@ -25,7 +25,7 @@ Make sure to install the dependencies:
 npm run dev
 ```
 
-# API Keys
+## API Keys
 
 This project requires API keys to access two third-party services: OpenWeatherMap and Mapbox. These keys are essential for specific functionalities within the application. Below are instructions on how to obtain and use these keys.
 
@@ -46,7 +46,7 @@ VITE_API_KEY=YOUR_OPENWEATHERMAP_API_KEY
 VITE_API_URL=https://api.openweathermap.org/data/2.5
 ```
 
-# Vue 3 + TypeScript + Vite
+## Vue 3 + TypeScript + Vite
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
