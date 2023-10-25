@@ -1,6 +1,6 @@
 <template>
   <div class="city-search">
-    <div v-if="$route.path == '/weather-app/'" class="city-search-input">
+    <div v-if="$route.path == '/weather-app'" class="city-search-input">
       <input
         type="text"
         v-model="searchQuery"
