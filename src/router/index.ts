@@ -24,10 +24,12 @@ const router = createRouter({
     {
       path: '/404',
       component: HomeView,
+      name: 'home',
     },
     {
-      path: '*',
+      path: '/:pathMatch(.*)*',
       component: HomeView,
+      name: 'home',
     },
   ],
 });
