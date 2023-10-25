@@ -96,7 +96,7 @@ export default defineComponent({
       this.$refs.modal.openModal();
     },
     async addCity() {
-      const url = 'http://ip-api.com/json/';
+      const url = 'https://ipapi.co/json/';
 
       try {
         const response = await fetch(url);
@@ -127,7 +127,8 @@ export default defineComponent({
       return Object.values(groupedData);
     },
     async weatherLocation(data) {
-      const { lat, lon, city, country } = data;
+      console.log(data);
+      const { latitude, longitude, city, country } = data;
 
       const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=${this.$i18n.locale}`;
 
