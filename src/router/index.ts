@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import FavoritesView from '@/views/FavoritesView.vue';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
