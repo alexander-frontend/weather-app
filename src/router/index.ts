@@ -21,9 +21,17 @@ const router = createRouter({
         title: 'Five day forecast',
       },
     },
+    {
+      path: '/404',
+      component: HomeView,
+    },
+    {
+      path: '*',
+      component: HomeView,
+    },
   ],
 });
 
-router.push({ path: '/weather-app' });
+router.push('/weather-app/');
 
 export default router;
