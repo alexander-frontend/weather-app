@@ -7,14 +7,14 @@
     </h1>
     <nav class="header-nav d-flex">
       <router-link
-        to="/weater-app"
+        to="/weather-app"
         class="btn"
         :class="{ 'is-active': $route.path === '/' }"
         >{{ $t('Home') }}</router-link
       >
 
       <router-link
-        to="/weater-app/favorites"
+        to="/weather-app/favorites"
         class="btn"
         :class="{ 'is-active': $route.path === '/favorites' }"
         >{{ $t('Favorite') }}</router-link

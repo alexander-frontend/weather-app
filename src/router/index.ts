@@ -6,7 +6,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/weater-app/',
+      path: '/weather-app',
       component: HomeView,
       name: 'home',
       meta: {
@@ -14,7 +14,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/weater-app/favorites',
+      path: '/weather-app/favorites',
       component: FavoritesView,
       name: 'favorites',
       meta: {
