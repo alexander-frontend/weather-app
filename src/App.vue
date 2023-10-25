@@ -20,7 +20,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    //this.$router.push('/weather-app/');
+    this.$router.push('/weather-app/');
   },
   setup() {},
   components: {

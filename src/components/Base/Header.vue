@@ -9,7 +9,7 @@
       <router-link
         to="/weather-app"
         class="btn"
-        :class="{ 'is-active': $route.path === '/weather-app' }"
+        :class="{ 'is-active': $route.path === '/weather-app/' }"
         >{{ $t('Home') }}</router-link
       >
 
