@@ -1,9 +1,9 @@
 import HomeView from '../views/HomeView.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import FavoritesView from '@/views/FavoritesView.vue';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -21,7 +21,5 @@ const router = createRouter({
     },
   ],
 });
-
-//router.push('/weather-app/');
 
 export default router;
