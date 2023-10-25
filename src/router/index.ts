@@ -6,15 +6,17 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: '/weater-app/',
       component: HomeView,
+      name: 'home'
       meta: {
         title: 'Weather app',
       },
     },
     {
-      path: '/favorites',
+      path: '/weater-app/favorites',
       component: FavoritesView,
+      name: 'favorites'
       meta: {
         title: 'Five day forecast',
       },
