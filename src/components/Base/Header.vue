@@ -9,14 +9,14 @@
       <router-link
         to="/weather-app/"
         class="btn"
-        :class="{ 'is-active': $route.path === '/weather-app/' }"
+        :class="{ 'is-active': $route.path === '/' }"
         >{{ $t('Home') }}</router-link
       >
 
       <router-link
         to="/weather-app/favorites"
         class="btn"
-        :class="{ 'is-active': $route.path === '/weather-app/favorites' }"
+        :class="{ 'is-active': $route.path === '/favorites' }"
         >{{ $t('Favorite') }}</router-link
       >
     </nav>
