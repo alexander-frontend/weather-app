@@ -1,3 +1,32 @@
+## Weather app
+
+Targer: Implementation of a weather application using the API https://openweathermap.org/
+Without using css frameworks, ui libraries.
+
+## Setup
+
+Make sure to install the dependencies:
+
+```bash
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+```
+
+## Compile and Hot-Reload for Development
+
+Make sure to install the dependencies:
+
+```bash
+# npm
+npm run dev
+```
+
 # Vue 3 + TypeScript + Vite
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
