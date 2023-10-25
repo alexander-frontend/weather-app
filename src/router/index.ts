@@ -1,9 +1,9 @@
 import HomeView from '../views/HomeView.vue';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebhHistory } from 'vue-router';
 import FavoritesView from '@/views/FavoritesView.vue';
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebhHistory(),
   routes: [
     {
       path: '/',
