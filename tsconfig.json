@@ -1,0 +1,17 @@
+{
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules"]
+}
