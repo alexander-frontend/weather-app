@@ -123,7 +123,7 @@ export default defineComponent({
       }
     },
     async weatherLocation(data) {
-      const { latitude, longitude, city, country } = data;
+      const { latitude, longitude, cityName, countryName } = data;
 
       const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.openweathermapApiKey}&units=metric&lang=${this.$i18n.locale}`;
 
@@ -150,9 +150,9 @@ export default defineComponent({
         // save the weather data to the Pinia data store
         this.cityStore.addCity(
           window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16),
-          city,
+          cityName,
           state,
-          country,
+          countryName,
           value.coord.lat,
           value.coord.lon,
           value.weather[0].main,
