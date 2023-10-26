@@ -13,6 +13,10 @@ export const useCitiesStore = defineStore('cities', {
     getNumberOfCities: (state) => {
       return state.weatherData.length;
     },
+
+    getNumberOfFavorites: (state) => {
+      return state.favorites.length;
+    },
   },
 
   // actions are operations that change the state

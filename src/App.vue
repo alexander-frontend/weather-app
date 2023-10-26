@@ -23,9 +23,6 @@ export default defineComponent({
       title: ref('Weather App'),
     };
   },
-  mounted() {
-    this.$router.push('/weather-app');
-  },
   setup() {},
   components: {
     Header,

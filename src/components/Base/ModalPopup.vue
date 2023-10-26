@@ -1,7 +1,7 @@
 <template>
   <div class="modal" v-if="isOpen">
     <div class="modal-content">
-      <p>{{ message }}</p>
+      <p v-html="message"></p>
       <div class="modal-actions">
         <button class="btn btn-yes" @click="confirmAction">Ok</button>
         <button v-if="cancel" class="btn btn-no" @click="cancelAction">
@@ -36,9 +36,11 @@ export default defineComponent({
     };
   },
   computed: {},
+  mounted() {},
   methods: {
     openModal() {
       this.isOpen = true;
+
       return new Promise((resolve, reject) => {
         this.resolveCallback = resolve;
         this.rejectCallback = reject;
@@ -46,10 +48,12 @@ export default defineComponent({
     },
     confirmAction() {
       this.isOpen = false;
+
       this.resolveCallback();
     },
     cancelAction() {
       this.isOpen = false;
+
       this.rejectCallback();
     },
   },

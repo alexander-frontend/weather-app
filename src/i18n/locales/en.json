@@ -16,6 +16,8 @@
   "Nothing_here": "Nothing here",
   "Add_favorites": "Add cities to your favorites on the Homepage",
   "Not_found": "Not found",
+  "Favorite_limit": "The number of favorite cities is a maximum of 5. <br> To add, remove a city from the selected one.",
+  "Are_you_sure_favorite": "Are you sure you want to remove the city from your favorites?",
   "Months": {
     "0": "January",
     "1": "February",

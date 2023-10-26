@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ModalPopup :cancel="false" :message="modalMessage" ref="modal" />
+    <ModalPopup :cancel="cancel" :message="modalMessage" ref="modal" />
 
     <Loader v-if="isLoading" />
 
@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { useCitiesStore } from '@/store/WeatherDataStore';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, nextTick } from 'vue';
 import ModalPopup from '@/components/Base/ModalPopup.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import Item from '@/components/City/Item.vue';
@@ -42,7 +42,6 @@ export default defineComponent({
     Loader,
     Item,
   },
-  emits: ['open-modal'],
   setup() {
     const apiKey = 'f41ec13a2657bc185cdffa04442de35f';
     const urlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
@@ -72,15 +71,15 @@ export default defineComponent({
       favorites: JSON.parse(localStorage.getItem('favorites')) || [],
       isLoading: false,
       timeOfDayCategories: [],
-      modalMessage: 'Are you sure?',
-      cancel: Boolean,
+      modalMessage: '',
+      cancel: false,
     };
   },
   created() {
-    eventbus.on('open-modal', (event: any) => {
-      console.log(event);
-      this.openModal(event.message, event.cancel);
-    });
+    eventbus.on('open-modal', this.openModalCallback);
+  },
+  unmounted() {
+    eventbus.off('open-modal', this.openModalCallback);
   },
   mounted() {
     if (!this.cityStore.getNumberOfCities) {
@@ -97,15 +96,19 @@ export default defineComponent({
     }
   },
   methods: {
-    openModal(message: string, cancel) {
-      console.log(message);
-      console.log(cancel);
+    openModalCallback(event) {
+      this.openModal(event.message, event.cancel, event.index);
+    },
+    openModal(message: string, cancel, index) {
       this.modalMessage = message;
       this.cancel = cancel;
 
-      this.$nextTick(() => {
-        this.$refs.modal.openModal();
-      });
+      this.$refs.modal.openModal().then(
+        () => {
+          this.cityStore.removeFavorite(index);
+        },
+        () => {}
+      );
     },
     async addCity() {
       const url = 'https://ipapi.co/json/';
@@ -120,12 +123,6 @@ export default defineComponent({
       } catch (err) {
         console.error(err);
       }
-    },
-    isFavorite(city) {
-      return this.favorites.some(
-        (item) =>
-          JSON.stringify(item.cityName) === JSON.stringify(city.cityName)
-      );
     },
     async weatherLocation(data) {
       const { latitude, longitude, city, country } = data;

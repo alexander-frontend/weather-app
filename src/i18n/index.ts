@@ -15,6 +15,7 @@ const i18n = createI18n({
     en: en,
     uk: uk,
   },
+  warnHtmlInMessage: 'off',
 });
 
 export default i18n;

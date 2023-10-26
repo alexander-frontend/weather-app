@@ -28,7 +28,7 @@ import { defineComponent, inject } from 'vue';
 import IconsFavorite from '@/components/Icons/Favorite.vue';
 import IconsRemove from '@/components/Icons/Remove.vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
-import eventbus from '@/eventbus';
+import eventbus from '@/eventbus/index';
 
 export default defineComponent({
   name: 'Actions',
@@ -49,6 +49,7 @@ export default defineComponent({
   data() {
     return {
       favorites: JSON.parse(localStorage.getItem('favorites')) || [],
+      // Max cities
       maxCities: 5,
       // Min cities
       minCities: 1,
@@ -67,9 +68,8 @@ export default defineComponent({
         this.favorites = JSON.parse(localStorage.getItem('favorites'));
       } else {
         eventbus.emit('open-modal', {
-          message:
-            'Кількість обраних міст максимум 5. Для додавання видаліть якесь місто з обраного.',
-          cancel: true,
+          message: this.$t('Favorite_limit'),
+          cancel: false,
         });
       }
     },
@@ -83,7 +83,13 @@ export default defineComponent({
       this.cityStore.removeCity(id);
     },
     removeCityFromFavorite(index: number): void {
-      this.cityStore.removeFavorite(index);
+      eventbus.emit('open-modal', {
+        message: this.$t('Are_you_sure_favorite'),
+        cancel: true,
+        index: index,
+      });
+
+      //this.cityStore.removeFavorite(index);
     },
   },
 });
@@ -101,3 +107,4 @@ export default defineComponent({
   }
 }
 </style>
+@/eventbus
