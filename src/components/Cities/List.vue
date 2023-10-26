@@ -30,9 +30,9 @@
 <script lang="ts">
 import { useCitiesStore } from '@/store/WeatherDataStore';
 import { defineComponent, ref } from 'vue';
-import Modal from '@/components/Modal/Modal.vue';
-import Loader from '@/components/Loader/Loader.vue';
-import Item from '@/components/City/Item.vue';
+import Modal from '@/components/Modal.vue';
+import Loader from '@/components/Loader.vue';
+import Item from '@/components/Cities/Item/Item.vue';
 import eventbus from '@/eventbus';
 
 export default defineComponent({

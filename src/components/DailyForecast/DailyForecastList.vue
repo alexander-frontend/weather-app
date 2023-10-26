@@ -1,15 +1,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Chart from '@/components/City/Chart.vue';
+import Chart from '@/components/Chart.vue';
 import IconsArow from '@/components/Icons/Arrow.vue';
-import FiveDayListItem from '@/components/City/Forecast/FiveDayListItem.vue';
+import DailyForecastItem from '@/components/DailyForecast/DailyForecastItem/DailyForecastItem.vue';
 
 export default defineComponent({
   name: 'FiveDayList',
   components: {
     Chart,
     IconsArow,
-    FiveDayListItem,
+    DailyForecastItem,
   },
   props: {
     forecast: {},
@@ -25,7 +25,7 @@ export default defineComponent({
 
 <template>
   <div class="accordion-panels">
-    <FiveDayListItem
+    <DailyForecastItem
       v-for="(item, index) of forecast"
       :key="index"
       :forecast="item"

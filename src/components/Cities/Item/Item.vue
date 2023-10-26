@@ -58,18 +58,18 @@
             {{ $t('Day') }}
           </button>
           <button
-            :class="{ 'is-active': chartType === 'fiveDays' }"
+            :class="{ 'is-active': chartType === 'five_days' }"
             class="btn"
-            @click="() => (chartType = 'fiveDays')"
+            @click="() => (chartType = 'five_days')"
           >
             {{ $t('5_days') }}
           </button>
         </div>
 
         <template v-if="forecast.length">
-          <OneDayItem v-if="chartType === 'day'" :forecast="forecast[0]" />
+          <Chart v-if="chartType === 'day'" :forecast="forecast[0]" />
 
-          <FiveDayList v-else :forecast="forecast" />
+          <DailyForecastList v-else :forecast="forecast" />
         </template>
       </template>
     </div>
@@ -79,19 +79,19 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
-import Search from '@/components/City/Search.vue';
+import Search from '@/components/Card/Search.vue';
 import axios from 'axios';
-import FiveDayList from '@/components/City/Forecast/FiveDayList.vue';
-import OneDayItem from '@/components/City/Forecast/OneDayItem.vue';
-import Loader from '@/components/Loader/Loader.vue';
-import Actions from '@/components/City/Actions.vue';
+import DailyForecastList from '@/components/DailyForecast/DailyForecastList.vue';
+import Chart from '@/components/Chart.vue';
+import Loader from '@/components/Loader.vue';
+import Actions from '@/components/Card/Actions.vue';
 
 export default defineComponent({
   name: 'Item',
   components: {
     Search,
-    OneDayItem,
-    FiveDayList,
+    Chart,
+    DailyForecastList,
     Loader,
     Actions,
   },
@@ -116,7 +116,7 @@ export default defineComponent({
       maxCities: 5,
       // Min cities
       minCities: 1,
-      chartType: 'day' as 'day' | 'fiveDays',
+      chartType: 'day' as 'day' | 'five_days',
       isLoading: true,
       openweathermapApiKey: '',
       forecast: [],

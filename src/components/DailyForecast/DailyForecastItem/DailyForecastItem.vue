@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Chart from '@/components/City/Chart.vue';
+import Chart from '@/components/Chart.vue';
 import IconsArow from '@/components/Icons/Arrow.vue';
 
 export default defineComponent({

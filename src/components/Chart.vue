@@ -1,3 +1,9 @@
+<template>
+  <div class="weather-chart">
+    <canvas ref="chart" class="chart" width="400" height="400"></canvas>
+  </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Chart } from 'chart.js/auto';
@@ -59,12 +65,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <div class="weather-chart">
-    <canvas ref="chart" class="chart" width="400" height="400"></canvas>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .weather-chart {

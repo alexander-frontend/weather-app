@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Search from '@/components/City/Search.vue';
-import List from '@/components/City/List.vue';
+import Search from '@/components/Card/Search.vue';
+import List from '@/components/Cities/List.vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
 
 export default defineComponent({

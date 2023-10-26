@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import List from '@/components/City/List.vue';
+import List from '@/components/Cities/List.vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
 
 export default defineComponent({
