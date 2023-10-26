@@ -94,14 +94,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.city-action-btns button {
-  margin-left: 1rem;
-  fill: #aaa;
-  color: #aaa;
-  transition: all 0.3s ease-out;
-  &.is-active {
-    fill: red;
-    color: red;
+.city-action-btns {
+  button {
+    margin-left: 1rem;
+    fill: #aaa;
+    color: #aaa;
+    transition: all 0.3s ease-out;
+    &.is-active,
+    &:hover {
+      fill: red;
+      color: red;
+    }
   }
 }
 </style>

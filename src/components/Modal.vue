@@ -72,35 +72,34 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   z-index: 99999;
-}
+  &-content {
+    background-color: $color-white;
+    padding: 20px;
+    border-radius: 20px;
+    color: $color-medium-dark-cyan-blue;
+    text-align: center;
+  }
 
-.modal-content {
-  background-color: $color-white;
-  padding: 20px;
-  border-radius: 20px;
-  color: $color-medium-dark-cyan-blue;
-  text-align: center;
-}
+  &-actions {
+    margin-top: 20px;
+    text-align: center;
+  }
 
-.modal-actions {
-  margin-top: 20px;
-  text-align: center;
-}
+  .btn {
+    padding: 5px 15px;
+    border-radius: 16px;
+    cursor: pointer;
+  }
 
-.btn {
-  padding: 5px 15px;
-  border-radius: 16px;
-  cursor: pointer;
-}
+  .btn-yes {
+    background-color: #dbf0e4;
+    color: black;
+  }
 
-.btn-yes {
-  background-color: #dbf0e4;
-  color: black;
-}
-
-.btn-no {
-  background-color: #f5a79e;
-  color: black;
-  margin-left: 10px;
+  .btn-no {
+    background-color: #f5a79e;
+    color: black;
+    margin-left: 10px;
+  }
 }
 </style>

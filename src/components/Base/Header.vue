@@ -52,19 +52,5 @@ export default defineComponent({
       text-decoration: none;
     }
   }
-
-  &-nav a {
-    &:first-child {
-      border-bottom-left-radius: 1rem;
-      border-left-width: 1px;
-      border-top-left-radius: 1rem;
-    }
-
-    &:last-child {
-      border-bottom-right-radius: 1rem;
-      border-right-width: 1px;
-      border-top-right-radius: 1rem;
-    }
-  }
 }
 </style>
