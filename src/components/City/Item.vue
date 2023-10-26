@@ -67,9 +67,9 @@
         </div>
 
         <template v-if="forecast.length">
-          <Chart v-if="chartType === 'day'" :forecast="forecast[0]" />
+          <OneDayItem v-if="chartType === 'day'" :forecast="forecast[0]" />
 
-          <AccordionPanels v-else :forecast="forecast" />
+          <FiveDayList v-else :forecast="forecast" />
         </template>
       </template>
     </div>
@@ -81,8 +81,8 @@ import { defineComponent, ref } from 'vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
 import Search from '@/components/City/Search.vue';
 import axios from 'axios';
-import Chart from '@/components/City/Chart.vue';
-import AccordionPanels from '@/components/City/AccordionPanels.vue';
+import FiveDayList from '@/components/City/Forecast/FiveDayList.vue';
+import OneDayItem from '@/components/City/Forecast/OneDayItem.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import Actions from '@/components/City/Actions.vue';
 
@@ -90,8 +90,8 @@ export default defineComponent({
   name: 'Item',
   components: {
     Search,
-    Chart,
-    AccordionPanels,
+    OneDayItem,
+    FiveDayList,
     Loader,
     Actions,
   },

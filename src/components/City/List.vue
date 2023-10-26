@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ModalPopup :cancel="cancel" :message="modalMessage" ref="modal" />
+    <Modal :cancel="cancel" :message="modalMessage" ref="modal" />
 
     <Loader v-if="isLoading" />
 
@@ -29,8 +29,8 @@
 
 <script lang="ts">
 import { useCitiesStore } from '@/store/WeatherDataStore';
-import { defineComponent, ref, nextTick } from 'vue';
-import ModalPopup from '@/components/Base/ModalPopup.vue';
+import { defineComponent, ref } from 'vue';
+import Modal from '@/components/Modal/Modal.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import Item from '@/components/City/Item.vue';
 import eventbus from '@/eventbus';
@@ -38,7 +38,7 @@ import eventbus from '@/eventbus';
 export default defineComponent({
   name: 'List',
   components: {
-    ModalPopup,
+    Modal,
     Loader,
     Item,
   },

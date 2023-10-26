@@ -25,7 +25,7 @@ import Chart from '@/components/City/Chart.vue';
 import IconsArow from '@/components/Icons/Arrow.vue';
 
 export default defineComponent({
-  name: 'AccordionPanel',
+  name: 'FiveDayListItem',
   components: { IconsArow, Chart },
   setup() {},
   data() {

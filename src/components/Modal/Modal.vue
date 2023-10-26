@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'ModalPopup',
+  name: 'Modal',
   setup() {},
   props: {
     message: {
