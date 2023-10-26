@@ -13,7 +13,7 @@
         class="city-search-select d-flex"
         role="list"
       >
-        <li v-if="mapboxSearchResults.length == 0" class="not-found">
+        <li v-if="searchResults.length == 0" class="not-found">
           {{ $t('Not_found') }}
         </li>
         <li
@@ -48,17 +48,17 @@ export default defineComponent({
   setup() {
     let searchQuery = ref('');
     let selectedCity = ref('');
-    const queryTimeout = ref(null);
-    const searchError = ref('');
-    const mapboxSearchResults = ref([]);
+    const queryTimeout = ref(0);
+    const searchResults = ref([]);
     const cityStore = useCitiesStore();
+    const searchError: Boolean = false;
 
     return {
       searchError,
       queryTimeout,
       searchQuery,
       selectedCity,
-      mapboxSearchResults,
+      searchResults,
       cityStore,
     };
   },
@@ -80,7 +80,7 @@ export default defineComponent({
       /*
       let matches = 0;
 
-      const fgfg = this.mapboxSearchResults.filter((city) => {
+      const fgfg = this.searchResults.filter((city) => {
         if (
           city.name.toLowerCase().includes(this.searchQuery.toLowerCase()) &&
           matches < 10
@@ -91,21 +91,23 @@ export default defineComponent({
       });
       */
 
-      return this.mapboxSearchResults;
+      return this.searchResults;
     },
   },
   methods: {
     getSearchResults() {
       clearTimeout(this.queryTimeout);
 
-      this.queryTimeout = setTimeout(async () => {
+      this.queryTimeout = window.setTimeout(async () => {
         if (this.searchQuery !== '') {
           try {
             const result = await axios.get(
-              `https://api.openweathermap.org/geo/1.0/direct?q=${this.searchQuery}&limit=5&appid=f41ec13a2657bc185cdffa04442de35f`
+              `https://api.openweathermap.org/geo/1.0/direct?q=${
+                this.searchQuery
+              }&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
             );
 
-            this.mapboxSearchResults = result.data;
+            this.searchResults = result.data;
           } catch {
             this.searchError = true;
           }
@@ -113,16 +115,16 @@ export default defineComponent({
           return;
         }
 
-        this.mapboxSearchResults = [];
+        this.searchResults = [];
       }, 300);
     },
-    clearCity() {
-      this.inputCity = '';
+    clearSearchQuery() {
+      this.searchQuery = '';
     },
     selectCity(city) {
       // save the weather data to the Pinia data store
-      this.searchQuery = '';
-      this.mapboxSearchResults = [];
+      this.clearSearchQuery();
+      this.searchResults = [];
       this.$emit('search-city', city, this.city.id);
     },
   },

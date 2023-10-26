@@ -42,8 +42,8 @@ The OpenWeatherMap API key is used for retrieving weather information. To use th
 Example .env file:
 
 ```bash
-VITE_API_KEY=YOUR_OPENWEATHERMAP_API_KEY
-VITE_API_URL=https://api.openweathermap.org/data/2.5
+VITE_OPENWEATHER_API_KEY=YOUR_OPENWEATHERMAP_API_KEY
+VITE_OPENWEATHER_API_URL=https://api.openweathermap.org/data/2.5
 ```
 
 ## Vue 3 + TypeScript + Vite

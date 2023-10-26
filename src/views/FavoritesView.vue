@@ -51,4 +51,16 @@ export default defineComponent({
     text-align: center;
   }
 }
+
+@media (max-width: 768px) {
+  .content {
+    .cities {
+      margin-bottom: 6rem;
+    }
+
+    .no-favorites {
+      font-size: 2rem;
+    }
+  }
+}
 </style>

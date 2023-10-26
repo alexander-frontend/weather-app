@@ -39,13 +39,13 @@ export default defineComponent({
 
 main {
   flex-grow: 1;
-  max-width: 1300px;
+  max-width: 130rem;
   width: 100%;
   margin: auto;
 }
 
 .header {
-  max-width: 1300px;
+  max-width: 130rem;
 }
 
 .footer,

@@ -71,12 +71,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 0.1rem;
   width: 100%;
 
   .chart {
-    max-height: 200px;
-    max-width: 1000px;
+    max-height: 20rem;
+    max-width: 54rem;
   }
 }
 </style>

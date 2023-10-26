@@ -34,4 +34,12 @@ export default defineComponent({
     margin-bottom: 14rem;
   }
 }
+
+@media (max-width: 768px) {
+  .content {
+    .cities {
+      margin-bottom: 6rem;
+    }
+  }
+}
 </style>

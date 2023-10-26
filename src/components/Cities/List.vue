@@ -43,7 +43,7 @@ export default defineComponent({
     Item,
   },
   setup() {
-    const apiKey = 'f41ec13a2657bc185cdffa04442de35f';
+    const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
     const urlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
 
     const cityStore = useCitiesStore();
@@ -109,7 +109,7 @@ export default defineComponent({
       );
     },
     async addCity() {
-      const url = 'https://ipapi.co/json/';
+      const url = 'https://freeipapi.com/api/json/';
 
       try {
         const response = await fetch(url);
@@ -125,7 +125,7 @@ export default defineComponent({
     async weatherLocation(data) {
       const { latitude, longitude, city, country } = data;
 
-      const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.apiKey}&units=metric&lang=${this.$i18n.locale}`;
+      const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.openweathermapApiKey}&units=metric&lang=${this.$i18n.locale}`;
 
       let state = '';
 

@@ -97,7 +97,7 @@ export default defineComponent({
   },
   emits: ['open-modal'],
   setup() {
-    const apiKey = 'f41ec13a2657bc185cdffa04442de35f';
+    const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
     const urlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
 
     const cityStore = useCitiesStore();
@@ -270,16 +270,16 @@ export default defineComponent({
 
     &-right {
       height: auto;
-      min-height: 344px;
+      min-height: 37rem;
     }
 
     .chart-type {
       margin: 1rem 0 2rem 0;
       h3 {
         cursor: pointer;
-        margin-right: 10px;
+        margin-right: 0.1rem;
         + h3 {
-          margin-left: 10px;
+          margin-left: 0.1rem;
         }
         &.is-active {
           text-decoration: underline;
@@ -298,7 +298,7 @@ export default defineComponent({
   .city {
     &-item {
       flex-direction: column;
-      margin: 0 0 2rem 0;
+      margin: 0 0 3rem 0;
       padding: 2rem;
       &-right,
       &-left {

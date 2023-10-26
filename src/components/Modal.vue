@@ -74,20 +74,20 @@ export default defineComponent({
   z-index: 99999;
   &-content {
     background-color: $color-white;
-    padding: 20px;
-    border-radius: 20px;
+    padding: 2rem;
+    border-radius: 2rem;
     color: $color-medium-dark-cyan-blue;
     text-align: center;
   }
 
   &-actions {
-    margin-top: 20px;
+    margin-top: 2rem;
     text-align: center;
   }
 
   .btn {
-    padding: 5px 15px;
-    border-radius: 16px;
+    padding: 0.5rem 1, 5rem;
+    border-radius: 1.6rem;
     cursor: pointer;
   }
 
@@ -99,7 +99,7 @@ export default defineComponent({
   .btn-no {
     background-color: #f5a79e;
     color: black;
-    margin-left: 10px;
+    margin-left: 1rem;
   }
 }
 </style>

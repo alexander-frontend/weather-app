@@ -53,7 +53,7 @@ export default defineComponent({
     select {
       appearance: none;
       background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAqUlEQVR4nO2TQQrCMAAE56S+IqKPUVB/ZKu+yFb9jGKfoV6VgIciSZukW+jBgVxnSaaFP0PhArzF51wfmAJPofwFzH9vcRAO7F3PNAZuAnkFTHwtloKBTVvwUwd5GfJFGeCRGHZGILuEgZwIYoNXTWEVwdckUgbICzpgWoJHhfWRNwxkCBgBV4f8nhLWx8IxsEJMUZMf6QHzDS4J6yMDtn3JLfYPt2c4fAD/dchwnz+b7wAAAABJRU5ErkJggg==');
-      background-position: right 10px center;
+      background-position: right 0.1rem center;
       background-repeat: no-repeat;
       background-color: $color-light-gray-shade;
       background-size: 1.2rem;
