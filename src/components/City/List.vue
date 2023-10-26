@@ -66,8 +66,6 @@ export default defineComponent({
       openweathermapApiKey: '',
       // Max cities
       maxCities: 5,
-      // Min cities
-      minCities: 1,
       favorites: JSON.parse(localStorage.getItem('favorites')) || [],
       isLoading: false,
       timeOfDayCategories: [],
@@ -76,10 +74,10 @@ export default defineComponent({
     };
   },
   created() {
-    eventbus.on('open-modal', this.openModalCallback);
+    eventbus.on('open-modal', this.handleOpenModal);
   },
   unmounted() {
-    eventbus.off('open-modal', this.openModalCallback);
+    eventbus.off('open-modal', this.handleOpenModal);
   },
   mounted() {
     if (!this.cityStore.getNumberOfCities) {
@@ -96,16 +94,16 @@ export default defineComponent({
     }
   },
   methods: {
-    openModalCallback(event) {
-      this.openModal(event.message, event.cancel, event.index);
+    handleOpenModal(event) {
+      this.openModal(event.message, event.cancel, event.cb);
     },
-    openModal(message: string, cancel, index) {
+    openModal(message: string, cancel, cb?) {
       this.modalMessage = message;
       this.cancel = cancel;
 
       this.$refs.modal.openModal().then(
         () => {
-          this.cityStore.removeFavorite(index);
+          if (cb) cb();
         },
         () => {}
       );

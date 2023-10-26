@@ -86,10 +86,8 @@ export default defineComponent({
       eventbus.emit('open-modal', {
         message: this.$t('Are_you_sure_favorite'),
         cancel: true,
-        index: index,
+        cb: this.cityStore.removeFavorite.bind(index),
       });
-
-      //this.cityStore.removeFavorite(index);
     },
   },
 });
