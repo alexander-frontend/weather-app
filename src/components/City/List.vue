@@ -6,7 +6,6 @@
 
     <div v-else class="city-list">
       <Item
-        @open-modal="openModal"
         v-for="(city, index) in cities"
         :city="city"
         :key="city.id"
@@ -17,8 +16,8 @@
       <div
         class="add-button"
         v-if="
-          cityStore.weatherData.length &&
-          cityStore.weatherData.length < maxCities &&
+          cityStore.getNumberOfCities &&
+          cityStore.getNumberOfCities < maxCities &&
           $route.path == '/weather-app'
         "
       >
@@ -34,6 +33,7 @@ import { defineComponent, ref } from 'vue';
 import ModalPopup from '@/components/Base/ModalPopup.vue';
 import Loader from '@/components/Loader/Loader.vue';
 import Item from '@/components/City/Item.vue';
+import eventbus from '@/eventbus';
 
 export default defineComponent({
   name: 'List',
@@ -42,6 +42,7 @@ export default defineComponent({
     Loader,
     Item,
   },
+  emits: ['open-modal'],
   setup() {
     const apiKey = 'f41ec13a2657bc185cdffa04442de35f';
     const urlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
@@ -75,8 +76,14 @@ export default defineComponent({
       cancel: Boolean,
     };
   },
+  created() {
+    eventbus.on('open-modal', (event: any) => {
+      console.log(event);
+      this.openModal(event.message, event.cancel);
+    });
+  },
   mounted() {
-    if (!this.cityStore.weatherData.length) {
+    if (!this.cityStore.getNumberOfCities) {
       this.isLoading = true;
       this.addCity();
     }
@@ -91,9 +98,14 @@ export default defineComponent({
   },
   methods: {
     openModal(message: string, cancel) {
+      console.log(message);
+      console.log(cancel);
       this.modalMessage = message;
       this.cancel = cancel;
-      this.$refs.modal.openModal();
+
+      this.$nextTick(() => {
+        this.$refs.modal.openModal();
+      });
     },
     async addCity() {
       const url = 'https://ipapi.co/json/';
@@ -114,17 +126,6 @@ export default defineComponent({
         (item) =>
           JSON.stringify(item.cityName) === JSON.stringify(city.cityName)
       );
-    },
-    splitByDays(forecastOrigin) {
-      const groupedData = forecastOrigin.list.reduce((days, row) => {
-        const date = row.dt_txt.split(' ')[0];
-
-        days[date] = [...(days[date] ? days[date] : []), row];
-
-        return days;
-      }, {});
-
-      return Object.values(groupedData);
     },
     async weatherLocation(data) {
       const { latitude, longitude, city, country } = data;

@@ -21,8 +21,6 @@ import { supportedLocales } from '@/i18n/index';
 
 export default defineComponent({
   name: 'Footer',
-  props: {},
-  setup() {},
   data() {
     return {};
   },

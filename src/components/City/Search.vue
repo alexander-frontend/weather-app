@@ -9,11 +9,15 @@
       />
 
       <ul
-        v-if="mapboxSearchResults"
+        v-if="searchQuery != ''"
         class="city-search-select d-flex"
         role="list"
       >
+        <li v-if="mapboxSearchResults.length == 0" class="not-found">
+          {{ $t('Not_found') }}
+        </li>
         <li
+          v-else
           v-for="city in searchCities"
           :key="city.name"
           @click="selectCity(city)"
@@ -23,9 +27,6 @@
             {{ city.country }}
           </template>
           <template v-else>{{ city.name }}, {{ city.country }}</template>
-        </li>
-        <li class="not-found">
-          {{ $t('Not_found') }}
         </li>
       </ul>
     </div>
@@ -49,7 +50,7 @@ export default defineComponent({
     let selectedCity = ref('');
     const queryTimeout = ref(null);
     const searchError = ref('');
-    const mapboxSearchResults = ref(null);
+    const mapboxSearchResults = ref([]);
     const cityStore = useCitiesStore();
 
     return {
@@ -112,7 +113,7 @@ export default defineComponent({
           return;
         }
 
-        this.mapboxSearchResults = null;
+        this.mapboxSearchResults = [];
       }, 300);
     },
     clearCity() {
@@ -121,7 +122,7 @@ export default defineComponent({
     selectCity(city) {
       // save the weather data to the Pinia data store
       this.searchQuery = '';
-      this.mapboxSearchResults = null;
+      this.mapboxSearchResults = [];
       this.$emit('search-city', city, this.city.id);
     },
   },
@@ -149,6 +150,7 @@ export default defineComponent({
   right: 0;
   flex-direction: column;
   background-color: $color-white;
+  border-radius: 1rem;
   color: black;
   li {
     padding: 0.6rem 1rem;
@@ -156,6 +158,17 @@ export default defineComponent({
     text-align: left;
     font-size: 1.4rem;
     cursor: pointer;
+    &:first-child {
+      border-top-left-radius: 1rem;
+      border-left-width: 1px;
+      border-top-right-radius: 1rem;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 1rem;
+      border-bottom-width: 1px;
+      border-bottom-right-radius: 1rem;
+    }
     &.not-found {
       cursor: default;
     }

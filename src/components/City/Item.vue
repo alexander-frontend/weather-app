@@ -10,7 +10,11 @@
           :city="city"
         ></Search>
 
-        <Actions :city="city" :is-favorite-page="isFavoritePage" />
+        <Actions
+          @open-modal="openModal"
+          :city="city"
+          :is-favorite-page="isFavoritePage"
+        />
       </div>
 
       <div class="city-name">
@@ -136,11 +140,18 @@ export default defineComponent({
     showRemoveBtn() {
       return (
         this.$route.path === '/weather-app/' &&
-        this.cityStore.weatherData.length == this.minCities
+        this.cityStore.getNumberOfCities == this.minCities
       );
     },
   },
   methods: {
+    openModal(message: string, cancel) {
+      this.$emit(
+        'open-modal',
+        'Кількість обраних міст максимум 5. Для додавання видаліть якесь місто з обраного.',
+        true
+      );
+    },
     async weatherRequest(city) {
       const { lat, lon } = city;
 
@@ -263,7 +274,7 @@ export default defineComponent({
     }
 
     .chart-type {
-      margin-bottom: 2rem;
+      margin: 1rem 0 2rem 0;
       h3 {
         cursor: pointer;
         margin-right: 10px;

@@ -29,9 +29,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .content {
   width: 100%;
-}
-.cities {
-  padding: 0 1rem;
-  margin-bottom: 6rem;
+  .cities {
+    padding: 0 1rem;
+    margin-bottom: 14rem;
+  }
 }
 </style>

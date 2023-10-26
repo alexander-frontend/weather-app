@@ -1,8 +1,34 @@
+<template>
+  <div class="city-action-btns align-items-center d-flex justify-content-end">
+    <template v-if="isFavoritePage">
+      <button class="remove-button" @click="removeCityFromFavorite(index)">
+        <IconsRemove />
+      </button>
+    </template>
+    <template v-else-if="cityStore.getNumberOfCities > minCities">
+      <button class="remove-button" @click="removeCity(city.id)">
+        <IconsRemove />
+      </button>
+    </template>
+
+    <div>
+      <button
+        @click="addToFavorites(city)"
+        class="favorite-button"
+        :class="{ 'is-active': isFavorite(city) }"
+      >
+        <IconsFavorite />
+      </button>
+    </div>
+  </div>
+</template>
+
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
 import IconsFavorite from '@/components/Icons/Favorite.vue';
 import IconsRemove from '@/components/Icons/Remove.vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
+import eventbus from '@/eventbus';
 
 export default defineComponent({
   name: 'Actions',
@@ -32,15 +58,19 @@ export default defineComponent({
   mounted() {},
   methods: {
     addToFavorites(city) {
+      if (this.isFavorite(city)) {
+        return;
+      }
+
       if (this.favorites.length < this.maxCities) {
         this.cityStore.addToFavorite(city);
         this.favorites = JSON.parse(localStorage.getItem('favorites'));
       } else {
-        this.$emit(
-          'open-modal',
-          'Кількість обраних міст максимум 5. Для додавання видаліть якесь місто з обраного.',
-          true
-        );
+        eventbus.emit('open-modal', {
+          message:
+            'Кількість обраних міст максимум 5. Для додавання видаліть якесь місто з обраного.',
+          cancel: true,
+        });
       }
     },
     isFavorite(city) {
@@ -58,31 +88,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <div class="city-action-btns align-items-center d-flex justify-content-end">
-    <template v-if="isFavoritePage">
-      <button class="remove-button" @click="removeCityFromFavorite(index)">
-        <IconsRemove />
-      </button>
-    </template>
-    <template v-else-if="cityStore.weatherData.length > minCities">
-      <button class="remove-button" @click="removeCity(city.id)">
-        <IconsRemove />
-      </button>
-    </template>
-
-    <div>
-      <button
-        @click="addToFavorites(city)"
-        class="favorite-button"
-        :class="{ 'is-active': isFavorite(city) }"
-      >
-        <IconsFavorite />
-      </button>
-    </div>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .city-action-btns button {
