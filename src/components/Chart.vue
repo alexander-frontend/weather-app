@@ -32,9 +32,9 @@ export default defineComponent({
   },
   methods: {
     initChart() {
-      const ctx = this.$refs.chart;
+      const ctx = <CanvasRenderingContext2D>this.$refs.chart;
 
-      this.chart = new Chart(ctx, {
+      new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.labels,

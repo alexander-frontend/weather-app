@@ -3,9 +3,11 @@
     <div class="modal-content">
       <p v-html="message"></p>
       <div class="modal-actions">
-        <button class="btn btn-yes" @click="confirmAction">Ok</button>
+        <button class="btn btn-yes" @click="confirmAction">
+          {{ $t('Ok') }}
+        </button>
         <button v-if="cancel" class="btn btn-no" @click="cancelAction">
-          No
+          {{ $t('No') }}
         </button>
       </div>
     </div>

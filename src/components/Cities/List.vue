@@ -44,13 +44,12 @@ export default defineComponent({
   },
   setup() {
     const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
-    const urlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
 
     const cityStore = useCitiesStore();
 
     const forecast = ref([]);
 
-    return { apiKey, urlBase, cityStore, forecast };
+    return { apiKey, cityStore, forecast };
   },
   props: {
     cities: Array,
@@ -74,16 +73,12 @@ export default defineComponent({
     };
   },
   created() {
-    eventbus.on('open-modal', this.handleOpenModal);
+    eventbus.on('open-modal', this.openModalHandler);
   },
   unmounted() {
-    eventbus.off('open-modal', this.handleOpenModal);
+    eventbus.off('open-modal', this.openModalHandler);
   },
   mounted() {
-    if (!this.cityStore.getNumberOfCities) {
-      this.isLoading = true;
-      this.addCity();
-    }
     // Perform a check that the API key from openweathermap.org is defined
     if (this.apiKey === undefined) {
       this.messageType = 'Error';
@@ -91,19 +86,27 @@ export default defineComponent({
         'Error! API Key needs to be loaded to use openweathermap.org!';
     } else {
       this.openweathermapApiKey = this.apiKey;
+
+      if (!this.cityStore.getNumberOfCities) {
+        this.isLoading = true;
+
+        this.addCity();
+      }
     }
   },
   methods: {
-    handleOpenModal(event) {
-      this.openModal(event.message, event.cancel, event.cb);
+    openModalHandler(event) {
+      this.openModal(event.message, event.cancel, event.callback);
     },
-    openModal(message: string, cancel, cb?) {
+    openModal(message: string, cancel, callback?) {
       this.modalMessage = message;
       this.cancel = cancel;
 
       this.$refs.modal.openModal().then(
         () => {
-          if (cb) cb();
+          if (callback) {
+            callback();
+          }
         },
         () => {}
       );
@@ -116,8 +119,6 @@ export default defineComponent({
         const data = await response.json();
 
         this.weatherLocation(data);
-
-        this.isLoading = false;
       } catch (err) {
         console.error(err);
       }
@@ -161,6 +162,8 @@ export default defineComponent({
           value.main.temp_min,
           value.main.feels_like
         );
+
+        this.isLoading = false;
       } catch (err) {
         console.error(err);
       }

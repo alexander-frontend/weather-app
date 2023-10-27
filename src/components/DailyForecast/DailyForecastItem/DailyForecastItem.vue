@@ -65,7 +65,7 @@ export default defineComponent({
           val = `${day}, ${month} ${date}`;
           break;
         case 'uk':
-          val = `${day}, ${date}, ${month}`;
+          val = `${day}, ${date} ${month}`;
           break;
         default:
           val = `${day}, ${date}, ${month}`;

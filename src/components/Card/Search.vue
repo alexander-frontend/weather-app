@@ -19,7 +19,7 @@
         <li
           v-else
           v-for="city in searchCities"
-          :key="city.name"
+          :key="`${city.lon}${city.lat}`"
           @click="selectCity(city)"
         >
           <template v-if="city.state">
@@ -36,7 +36,6 @@
 <script lang="ts">
 import { useCitiesStore } from '@/store/WeatherDataStore';
 import { defineComponent, ref } from 'vue';
-import axios from 'axios';
 
 export default defineComponent({
   name: 'Search',
@@ -77,23 +76,10 @@ export default defineComponent({
         return [];
       }
 
-      /*
-      let matches = 0;
-
-      const fgfg = this.searchResults.filter((city) => {
-        if (
-          city.name.toLowerCase().includes(this.searchQuery.toLowerCase()) &&
-          matches < 10
-        ) {
-          matches++;
-          return city;
-        }
-      });
-      */
-
       return this.searchResults;
     },
   },
+  mounted() {},
   methods: {
     getSearchResults() {
       clearTimeout(this.queryTimeout);
@@ -101,13 +87,14 @@ export default defineComponent({
       this.queryTimeout = window.setTimeout(async () => {
         if (this.searchQuery !== '') {
           try {
-            const result = await axios.get(
+            const result = await fetch(
               `https://api.openweathermap.org/geo/1.0/direct?q=${
                 this.searchQuery
               }&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
             );
 
-            this.searchResults = result.data;
+            const data = await result.json();
+            this.searchResults = data;
           } catch {
             this.searchError = true;
           }

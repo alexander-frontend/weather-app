@@ -10,37 +10,41 @@
           :city="city"
         ></Search>
 
-        <Actions
-          @open-modal="openModal"
-          :city="city"
-          :is-favorite-page="isFavoritePage"
-        />
+        <Actions :city="city" :is-favorite-page="isFavoritePage" />
       </div>
 
-      <div class="city-name">
-        <h2 v-if="city.stateName">
-          {{ city.cityName }}, {{ city.stateName }},
-          {{ city.countryAbbreviation }}
-        </h2>
-        <h2 v-else>{{ city.cityName }}, {{ city.countryAbbreviation }}</h2>
-      </div>
+      <Loader v-if="isLoading" />
 
-      <div class="city-data">
-        <p>
-          <b>{{ $t('Weather_summary') }}</b> {{ city.weatherSummary }}
-        </p>
-        <p>
-          <b>{{ $t('Current_temperature') }}</b>
-          {{ Math.round(city.currentTemperature) }}&#8451;
-        </p>
-        <p>
-          <b>{{ $t('High') }}</b> {{ Math.round(city.dailyHigh) }}&#8451; /
-          <b>{{ $t('Low') }}</b> {{ Math.round(city.dailyLow) }}&#8451;
-        </p>
-        <p>
-          <b>{{ $t('Feels_like') }}</b> {{ Math.round(city.dailyHigh) }}&#8451;
-        </p>
-      </div>
+      <template v-else>
+        <div class="city-name">
+          <h2 v-if="city.stateName">
+            {{ city.cityName }}, {{ city.stateName }},
+            {{ city.countryAbbreviation }}
+          </h2>
+          <h2 v-else>{{ city.cityName }}, {{ city.countryAbbreviation }}</h2>
+        </div>
+
+        <div class="city-data">
+          <p>
+            <b>{{ formattedDate }}</b>
+          </p>
+          <p>
+            <b>{{ $t('Weather_summary') }}</b> {{ city.weatherSummary }}
+          </p>
+          <p>
+            <b>{{ $t('Current_temperature') }}</b>
+            {{ Math.round(city.currentTemperature) }}&#8451;
+          </p>
+          <p>
+            <b>{{ $t('High') }}</b> {{ Math.round(city.dailyHigh) }}&#8451; /
+            <b>{{ $t('Low') }}</b> {{ Math.round(city.dailyLow) }}&#8451;
+          </p>
+          <p>
+            <b>{{ $t('Feels_like') }}</b>
+            {{ Math.round(city.dailyHigh) }}&#8451;
+          </p>
+        </div>
+      </template>
     </div>
 
     <div class="city-item-right">
@@ -80,11 +84,11 @@
 import { defineComponent, ref } from 'vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
 import Search from '@/components/Card/Search.vue';
-import axios from 'axios';
 import DailyForecastList from '@/components/DailyForecast/DailyForecastList.vue';
 import Chart from '@/components/Chart.vue';
 import Loader from '@/components/Loader.vue';
 import Actions from '@/components/Card/Actions.vue';
+import eventbus from '@/eventbus/index';
 
 export default defineComponent({
   name: 'Item',
@@ -122,6 +126,7 @@ export default defineComponent({
       forecast: [],
       messageType: '',
       messageToDisplay: '',
+      formattedDate: '',
     };
   },
   mounted() {
@@ -144,13 +149,17 @@ export default defineComponent({
       );
     },
   },
+  created() {
+    eventbus.on('refresh-weather', this.refreshWeatherHandler);
+  },
+  unmounted() {
+    eventbus.off('refresh-weather', this.refreshWeatherHandler);
+  },
   methods: {
-    openModal(message: string, cancel) {
-      this.$emit(
-        'open-modal',
-        'Кількість обраних міст максимум 5. Для додавання видаліть якесь місто з обраного.',
-        true
-      );
+    refreshWeatherHandler() {
+      this.isLoading = true;
+
+      this.weatherRequest(this.city);
     },
     async weatherRequest(city) {
       const { lat, lon } = city;
@@ -171,12 +180,37 @@ export default defineComponent({
         const value = await data[0];
 
         this.forecast = this.splitByDays(value);
+
+        this.formattedDate = this.getMonthDayDate(this.forecast[0][0].dt);
       } catch (err) {
         console.error(err);
       }
 
-      this.isLoading = false;
       this.chartType = 'day';
+
+      this.isLoading = false;
+    },
+    getMonthDayDate(time: number) {
+      const dateFromTimeStamp = new Date(time * 1000);
+      const day = this.$t(`Days.${dateFromTimeStamp.getUTCDay()}`);
+      const month = this.$t(`Months.${dateFromTimeStamp.getUTCMonth()}`);
+      const date = dateFromTimeStamp.getUTCDate();
+
+      let val;
+
+      switch (this.$i18n.locale) {
+        case 'en':
+          val = `${day}, ${month} ${date}`;
+          break;
+        case 'uk':
+          val = `${day}, ${date} ${month}`;
+          break;
+        default:
+          val = `${day}, ${date}, ${month}`;
+          break;
+      }
+
+      return val;
     },
     splitByDays(forecastOrigin) {
       const groupedData = forecastOrigin.list.reduce((days, row) => {
@@ -196,7 +230,7 @@ export default defineComponent({
         // GET request for retrieving the current weather data using the Current
         // Weather Data API from OpenWeather (https://openweathermap.org/current)
         try {
-          const response2 = await axios.get(
+          const response = await fetch(
             'https://api.openweathermap.org/data/2.5/weather?lat=' +
               city.lat +
               '&lon=' +
@@ -205,16 +239,13 @@ export default defineComponent({
               this.openweathermapApiKey
           );
 
+          const data = await response.json();
+
           // handle success
-          console.log(
-            'Retrieved current temperature: ' + response2.data.main.temp
-          );
+          console.log('Retrieved current temperature: ' + data.main.temp);
 
           console.log(
-            'and high/low: ' +
-              response2.data.main.temp_max +
-              ' / ' +
-              response2.data.main.temp_min
+            'and high/low: ' + data.main.temp_max + ' / ' + data.main.temp_min
           );
 
           this.cityStore.updateCity(
@@ -224,11 +255,11 @@ export default defineComponent({
             city.country,
             city.lat,
             city.lon,
-            response2.data.weather[0].main,
-            response2.data.main.temp,
-            response2.data.main.temp_max,
-            response2.data.main.temp_min,
-            response2.data.main.feels_like
+            data.weather[0].main,
+            data.main.temp,
+            data.main.temp_max,
+            data.main.temp_min,
+            data.main.feels_like
           );
         } catch (error) {
           // handle error
@@ -266,11 +297,7 @@ export default defineComponent({
       border-radius: 1rem;
       margin: 2rem;
       text-align: center;
-    }
-
-    &-right {
-      height: auto;
-      min-height: 37rem;
+      min-height: 370px;
     }
 
     .chart-type {
@@ -305,6 +332,7 @@ export default defineComponent({
         width: 100%;
         margin: 0;
         padding: 2rem;
+        min-height: auto;
         &:first-child {
           margin-bottom: 1rem;
         }

@@ -25,8 +25,6 @@ export const useCitiesStore = defineStore('cities', {
       const newWeatherData = this.weatherData.filter((item) => item.id !== id);
 
       this.weatherData = newWeatherData;
-
-      //localStorage.setItem('selectedCities', JSON.stringify(newCities));
     },
     addCity(
       id,
@@ -41,24 +39,6 @@ export const useCitiesStore = defineStore('cities', {
       feels_like,
       low
     ) {
-      // Check if the city is already saved
-
-      /*
-      if (
-        this.weatherData.find(({ cityName }) => cityName === city) === undefined
-      ) {
-        this.weatherData.push({
-          cityName: city,
-          stateName: state,
-          countryAbbreviation: country,
-          weatherSummary: summary,
-          currentTemperature: currentTemp,
-          dailyHigh: high,
-          dailyLow: low,
-        });
-      }
-      */
-
       this.weatherData.push({
         id: id,
         cityName: city,
@@ -112,7 +92,6 @@ export const useCitiesStore = defineStore('cities', {
     },
     removeFavorite(index: number) {
       this.favorites.splice(index, 1);
-
       localStorage.setItem('favorites', JSON.stringify(this.favorites));
     },
   },

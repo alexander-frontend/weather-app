@@ -79,15 +79,26 @@ export default defineComponent({
           JSON.stringify(item.cityName) === JSON.stringify(city.cityName)
       );
     },
-    removeCity(id: String) {
-      this.cityStore.removeCity(id);
-    },
-    removeCityFromFavorite(index: number): void {
+    handleEventOpenModal(message, cancel, callback) {
       eventbus.emit('open-modal', {
-        message: this.$t('Are_you_sure_favorite'),
-        cancel: true,
-        cb: this.cityStore.removeFavorite.bind(index),
+        message: message,
+        cancel: cancel,
+        callback: callback,
       });
+    },
+    removeCity(id: String) {
+      this.handleEventOpenModal(
+        this.$t('Are_you_sure'),
+        true,
+        this.cityStore.removeCity.bind(null, id)
+      );
+    },
+    removeCityFromFavorite(index: number) {
+      this.handleEventOpenModal(
+        this.$t('Are_you_sure_favorite'),
+        true,
+        this.cityStore.removeFavorite.bind(null, index)
+      );
     },
   },
 });
@@ -100,6 +111,7 @@ export default defineComponent({
     fill: #aaa;
     color: #aaa;
     transition: all 0.3s ease-out;
+
     &.is-active,
     &:hover {
       fill: red;
