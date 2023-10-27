@@ -34,7 +34,7 @@ export default defineComponent({
     },
   },
   watch: {
-    '$i18n.locale': (newVal) => {
+    '$i18n.locale': () => {
       eventbus.emit('refresh-weather');
     },
   },

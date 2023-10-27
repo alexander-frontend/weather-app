@@ -88,19 +88,17 @@ export default defineComponent({
   }
 
   .btn {
-    padding: 0.5rem 1, 5rem;
+    padding: 1rem 2rem;
     border-radius: 1.6rem;
     cursor: pointer;
   }
 
   .btn-yes {
     background-color: #dbf0e4;
-    color: black;
   }
 
   .btn-no {
     background-color: #f5a79e;
-    color: black;
     margin-left: 1rem;
   }
 }

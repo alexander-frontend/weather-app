@@ -8,7 +8,10 @@
     >
       <div>{{ formattedDate }}</div>
       <div>{{ weatherDescription }}</div>
-      <div>{{ averageTemperature() }} &#8451;</div>
+      <div>
+        {{ $t('Avg_temp') }}
+        <p>{{ averageTemperature() }} &#8451;</p>
+      </div>
 
       <IconsArow />
     </div>
@@ -25,7 +28,7 @@ import Chart from '@/components/Chart.vue';
 import IconsArow from '@/components/Icons/Arrow.vue';
 
 export default defineComponent({
-  name: 'FiveDayListItem',
+  name: 'DailyForecastItem',
   components: { IconsArow, Chart },
   setup() {},
   data() {

@@ -164,7 +164,7 @@ export default defineComponent({
     async weatherRequest(city) {
       const { lat, lon } = city;
 
-      const urlForecast = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=${this.$i18n.locale}`;
+      const urlForecast = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${this.openweathermapApiKey}&units=metric&lang=${this.$i18n.locale}`;
 
       try {
         /**

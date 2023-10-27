@@ -2,9 +2,7 @@
   <div>
     <Modal :cancel="cancel" :message="modalMessage" ref="modal" />
 
-    <Loader v-if="isLoading" />
-
-    <div v-else class="city-list">
+    <div class="city-list">
       <Item
         v-for="(city, index) in cities"
         :city="city"
@@ -66,8 +64,6 @@ export default defineComponent({
       // Max cities
       maxCities: 5,
       favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-      isLoading: false,
-      timeOfDayCategories: [],
       modalMessage: '',
       cancel: false,
     };
@@ -88,8 +84,6 @@ export default defineComponent({
       this.openweathermapApiKey = this.apiKey;
 
       if (!this.cityStore.getNumberOfCities) {
-        this.isLoading = true;
-
         this.addCity();
       }
     }
@@ -162,8 +156,6 @@ export default defineComponent({
           value.main.temp_min,
           value.main.feels_like
         );
-
-        this.isLoading = false;
       } catch (err) {
         console.error(err);
       }
