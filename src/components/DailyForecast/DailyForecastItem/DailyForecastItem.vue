@@ -94,6 +94,7 @@ export default defineComponent({
     transition: all 0.3s ease-out;
     border-radius: 0.4rem;
     font-size: 1.4rem;
+    line-height: 1.8rem;
     text-align: left;
     cursor: pointer;
     &.opened,
