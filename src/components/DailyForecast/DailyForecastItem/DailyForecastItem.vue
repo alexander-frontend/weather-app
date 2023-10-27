@@ -90,7 +90,7 @@ export default defineComponent({
   box-shadow: 0.2rem 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.2);
   &-desc {
     flex: 1 1 auto;
-    padding: 1.4rem;
+    padding: 1rem 1.4rem;
     transition: all 0.3s ease-out;
     border-radius: 0.4rem;
     font-size: 1.4rem;
