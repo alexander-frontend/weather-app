@@ -137,9 +137,9 @@ export default defineComponent({
         'Error! API Key needs to be loaded to use openweathermap.org!';
     } else {
       this.openweathermapApiKey = this.apiKey;
-    }
 
-    this.weatherRequest(this.city);
+      this.weatherRequest(this.city);
+    }
   },
   computed: {
     showRemoveBtn() {
@@ -160,6 +160,28 @@ export default defineComponent({
       this.isLoading = true;
 
       this.weatherRequest(this.city);
+    },
+    getMonthDayDate(time: number) {
+      const dateFromTimeStamp = new Date(time * 1000);
+      const day = this.$t(`Days.${dateFromTimeStamp.getUTCDay()}`);
+      const month = this.$t(`Months.${dateFromTimeStamp.getUTCMonth()}`);
+      const date = dateFromTimeStamp.getUTCDate();
+
+      let val;
+
+      switch (this.$i18n.locale) {
+        case 'en':
+          val = `${day}, ${month} ${date}`;
+          break;
+        case 'uk':
+          val = `${day}, ${date} ${month}`;
+          break;
+        default:
+          val = `${day}, ${date}, ${month}`;
+          break;
+      }
+
+      return val;
     },
     async weatherRequest(city) {
       const { lat, lon } = city;
@@ -189,28 +211,6 @@ export default defineComponent({
       this.chartType = 'day';
 
       this.isLoading = false;
-    },
-    getMonthDayDate(time: number) {
-      const dateFromTimeStamp = new Date(time * 1000);
-      const day = this.$t(`Days.${dateFromTimeStamp.getUTCDay()}`);
-      const month = this.$t(`Months.${dateFromTimeStamp.getUTCMonth()}`);
-      const date = dateFromTimeStamp.getUTCDate();
-
-      let val;
-
-      switch (this.$i18n.locale) {
-        case 'en':
-          val = `${day}, ${month} ${date}`;
-          break;
-        case 'uk':
-          val = `${day}, ${date} ${month}`;
-          break;
-        default:
-          val = `${day}, ${date}, ${month}`;
-          break;
-      }
-
-      return val;
     },
     splitByDays(forecastOrigin) {
       const groupedData = forecastOrigin.list.reduce((days, row) => {
