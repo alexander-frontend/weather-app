@@ -23,10 +23,12 @@
           @click="selectCity(city)"
         >
           <template v-if="city.state">
-            {{ city.name }}, {{ city.state }},
+            {{ setCityName(city) }}, {{ city.state }},
             {{ city.country }}
           </template>
-          <template v-else>{{ city.name }}, {{ city.country }}</template>
+          <template v-else
+            >{{ setCityName(city) }}, {{ city.country }}</template
+          >
         </li>
       </ul>
     </div>
@@ -87,6 +89,7 @@ export default defineComponent({
             );
 
             const data = await result.json();
+
             this.searchResults = data;
           } catch {
             this.searchError = true;
@@ -100,6 +103,11 @@ export default defineComponent({
     },
     clearSearchQuery() {
       this.searchQuery = '';
+    },
+    setCityName(city) {
+      return city.local_names && city.local_names[this.$i18n.locale]
+        ? city.local_names[this.$i18n.locale]
+        : city.name;
     },
     selectCity(city) {
       // save the weather data to the Pinia data store
