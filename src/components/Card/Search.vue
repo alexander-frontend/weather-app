@@ -62,13 +62,7 @@ export default defineComponent({
     };
   },
   data() {
-    return {
-      // Max cities
-      maxCities: 5,
-      // Min cities
-      minCities: 1,
-      favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-    };
+    return {};
   },
   computed: {
     searchCities() {
@@ -79,7 +73,6 @@ export default defineComponent({
       return this.searchResults;
     },
   },
-  mounted() {},
   methods: {
     getSearchResults() {
       clearTimeout(this.queryTimeout);

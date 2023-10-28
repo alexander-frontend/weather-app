@@ -5,7 +5,7 @@
         <IconsRemove />
       </button>
     </template>
-    <template v-else-if="cityStore.getNumberOfCities > minCities">
+    <template v-else-if="cityStore.getNumberOfCities > cityStore.minCities">
       <button class="remove-button" @click="removeCity(city.id)">
         <IconsRemove />
       </button>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue';
+import { defineComponent, ref } from 'vue';
 import IconsFavorite from '@/components/Icons/Favorite.vue';
 import IconsRemove from '@/components/Icons/Remove.vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
@@ -45,15 +45,10 @@ export default defineComponent({
     forecast: {},
     isFavoritePage: Boolean,
     city: {},
+    index: Number,
   },
   data() {
-    return {
-      favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-      // Max cities
-      maxCities: 5,
-      // Min cities
-      minCities: 1,
-    };
+    return {};
   },
   computed: {},
   mounted() {},
@@ -63,9 +58,8 @@ export default defineComponent({
         return;
       }
 
-      if (this.favorites.length < this.maxCities) {
+      if (this.cityStore.getNumberOfFavorites < this.cityStore.maxCities) {
         this.cityStore.addToFavorite(city);
-        this.favorites = JSON.parse(localStorage.getItem('favorites'));
       } else {
         eventbus.emit('open-modal', {
           message: this.$t('Favorite_limit'),
@@ -74,7 +68,7 @@ export default defineComponent({
       }
     },
     isFavorite(city) {
-      return this.favorites.some(
+      return this.cityStore.favorites.some(
         (item) =>
           JSON.stringify(item.cityName) === JSON.stringify(city.cityName)
       );
@@ -120,4 +114,3 @@ export default defineComponent({
   }
 }
 </style>
-@/eventbus

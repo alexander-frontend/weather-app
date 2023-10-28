@@ -1,11 +1,16 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useCitiesStore = defineStore('cities', {
   // state is the data being stored in the data store
   state: () => ({
-    weatherData: [],
-    favorites: JSON.parse(localStorage.getItem('favorites')) || [],
+    weatherData: ref([]),
+    favorites: ref(JSON.parse(localStorage.getItem('favorites'))) || ref([]),
     language: 'en',
+    // Max cities
+    maxCities: 5,
+    // Min cities
+    minCities: 1,
   }),
 
   // getters return data from the data store
@@ -31,6 +36,7 @@ export const useCitiesStore = defineStore('cities', {
       city,
       state,
       country,
+      local_names,
       latitude,
       longitude,
       summary,
@@ -44,6 +50,7 @@ export const useCitiesStore = defineStore('cities', {
         cityName: city,
         stateName: state,
         countryAbbreviation: country,
+        localNames: local_names,
         lat: latitude,
         lon: longitude,
         weatherSummary: summary,
@@ -58,6 +65,7 @@ export const useCitiesStore = defineStore('cities', {
       city,
       state,
       country,
+      local_names,
       latitude,
       longitude,
       summary,
@@ -73,6 +81,7 @@ export const useCitiesStore = defineStore('cities', {
               cityName: city,
               stateName: state,
               countryAbbreviation: country,
+              localNames: local_names,
               lat: latitude,
               lon: longitude,
               weatherSummary: summary,

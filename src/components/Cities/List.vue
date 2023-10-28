@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal :cancel="cancel" :message="modalMessage" ref="modal" />
+    <Modal :cancel="modalCancel" :message="modalMessage" ref="modal" />
 
     <div class="city-list">
       <Item
@@ -15,7 +15,7 @@
         class="add-button"
         v-if="
           cityStore.getNumberOfCities &&
-          cityStore.getNumberOfCities < maxCities &&
+          cityStore.getNumberOfCities < cityStore.maxCities &&
           $route.path == '/weather-app'
         "
       >
@@ -61,11 +61,8 @@ export default defineComponent({
       messageType: 'Info',
       // API key from openweathermap.org
       openweathermapApiKey: '',
-      // Max cities
-      maxCities: 5,
-      favorites: JSON.parse(localStorage.getItem('favorites')) || [],
       modalMessage: '',
-      cancel: false,
+      modalCancel: false,
     };
   },
   created() {
@@ -94,7 +91,7 @@ export default defineComponent({
     },
     openModal(message: string, cancel, callback?) {
       this.modalMessage = message;
-      this.cancel = cancel;
+      this.modalCancel = cancel;
 
       this.$refs.modal.openModal().then(
         () => {
@@ -148,6 +145,7 @@ export default defineComponent({
           cityName,
           state,
           countryName,
+          {},
           value.coord.lat,
           value.coord.lon,
           value.weather[0].main,

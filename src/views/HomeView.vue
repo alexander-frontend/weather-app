@@ -18,7 +18,6 @@ export default defineComponent({
 
     return { cityStore };
   },
-  mounted() {},
   data() {
     return {};
   },

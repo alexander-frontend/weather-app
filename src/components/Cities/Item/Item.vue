@@ -10,7 +10,11 @@
           :city="city"
         ></Search>
 
-        <Actions :city="city" :is-favorite-page="isFavoritePage" />
+        <Actions
+          :index="index"
+          :city="city"
+          :is-favorite-page="isFavoritePage"
+        />
       </div>
 
       <Loader v-if="isLoading" />
@@ -18,10 +22,13 @@
       <template v-else>
         <div class="city-name">
           <h2 v-if="city.stateName">
-            {{ city.cityName }}, {{ city.stateName }},
+            {{ setCityName() }}, {{ city.stateName }},
             {{ city.countryAbbreviation }}
           </h2>
-          <h2 v-else>{{ city.cityName }}, {{ city.countryAbbreviation }}</h2>
+          <h2 v-else>
+            {{ setCityName() }},
+            {{ city.countryAbbreviation }}
+          </h2>
         </div>
 
         <div class="city-data">
@@ -115,15 +122,10 @@ export default defineComponent({
   },
   data() {
     return {
-      favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-      // Max cities
-      maxCities: 5,
-      // Min cities
-      minCities: 1,
       chartType: 'day' as 'day' | 'five_days',
       isLoading: true,
       openweathermapApiKey: '',
-      forecast: [],
+      forecast: ref([]),
       messageType: '',
       messageToDisplay: '',
       formattedDate: '',
@@ -145,7 +147,7 @@ export default defineComponent({
     showRemoveBtn() {
       return (
         this.$route.path === '/weather-app/' &&
-        this.cityStore.getNumberOfCities == this.minCities
+        this.cityStore.getNumberOfCities == this.cityStore.minCities
       );
     },
   },
@@ -156,6 +158,11 @@ export default defineComponent({
     eventbus.off('refresh-weather', this.refreshWeatherHandler);
   },
   methods: {
+    setCityName() {
+      return this.city.localNames && this.city.localNames[this.$i18n.locale]
+        ? this.city.localNames[this.$i18n.locale]
+        : this.city.cityName;
+    },
     refreshWeatherHandler() {
       this.isLoading = true;
 
@@ -253,6 +260,7 @@ export default defineComponent({
             city.name,
             city.state,
             city.country,
+            city.local_names,
             city.lat,
             city.lon,
             data.weather[0].main,
@@ -261,6 +269,8 @@ export default defineComponent({
             data.main.temp_min,
             data.main.feels_like
           );
+
+          this.weatherRequest(city);
         } catch (error) {
           // handle error
           this.messageType = 'Error';
@@ -269,8 +279,6 @@ export default defineComponent({
           console.log(error);
         }
       }
-
-      this.weatherRequest(this.city);
     },
   },
 });
