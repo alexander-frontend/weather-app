@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/favorites",
+      "destination": "https://acme.com/blog"
+    }
+  ]
+}
