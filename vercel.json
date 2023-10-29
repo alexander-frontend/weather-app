@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/favorites",
+      "source": "/weather-app/favorites",
       "destination": "https://acme.com/blog"
     }
   ]
