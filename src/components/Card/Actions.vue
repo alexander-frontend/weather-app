@@ -69,8 +69,7 @@ export default defineComponent({
     },
     isFavorite(city) {
       return this.cityStore.favorites.some(
-        (item) =>
-          JSON.stringify(item.cityName) === JSON.stringify(city.cityName)
+        (item) => JSON.stringify(item.name) === JSON.stringify(city.name)
       );
     },
     handleEventOpenModal(message, cancel, callback) {

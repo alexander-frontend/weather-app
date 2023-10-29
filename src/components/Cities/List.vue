@@ -148,7 +148,7 @@ export default defineComponent({
           {},
           value.coord.lat,
           value.coord.lon,
-          value.weather[0].main,
+          value.weather[0].description,
           value.main.temp,
           value.main.temp_max,
           value.main.temp_min,

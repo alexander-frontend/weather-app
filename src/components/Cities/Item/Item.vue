@@ -6,7 +6,7 @@
       <div class="d-flex justify-content-space-between">
         <Search
           class="weather-search"
-          @search-city="searchCity"
+          @get-weather="getWeather"
           :city="city"
         ></Search>
 
@@ -23,11 +23,11 @@
         <div class="city-name">
           <h2 v-if="city.stateName">
             {{ setCityName() }}, {{ city.stateName }},
-            {{ city.countryAbbreviation }}
+            {{ city.country }}
           </h2>
           <h2 v-else>
             {{ setCityName() }},
-            {{ city.countryAbbreviation }}
+            {{ city.country }}
           </h2>
         </div>
 
@@ -36,7 +36,7 @@
             <b>{{ formattedDate }}</b>
           </p>
           <p>
-            <b>{{ $t('Weather_summary') }}</b> {{ city.weatherSummary }}
+            <b>{{ $t('Weather') }}</b> {{ city.weatherSummary }}
           </p>
           <p>
             <b>{{ $t('Current_temperature') }}</b>
@@ -109,11 +109,10 @@ export default defineComponent({
   emits: ['open-modal'],
   setup() {
     const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
-    const urlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
 
     const cityStore = useCitiesStore();
 
-    return { apiKey, urlBase, cityStore };
+    return { apiKey, cityStore };
   },
   props: {
     city: {},
@@ -161,12 +160,12 @@ export default defineComponent({
     setCityName() {
       return this.city.localNames && this.city.localNames[this.$i18n.locale]
         ? this.city.localNames[this.$i18n.locale]
-        : this.city.cityName;
+        : this.city.name;
     },
     refreshWeatherHandler() {
       this.isLoading = true;
 
-      this.weatherRequest(this.city);
+      this.getWeather(this.city, this.city.id);
     },
     getMonthDayDate(time: number) {
       const dateFromTimeStamp = new Date(time * 1000);
@@ -230,7 +229,7 @@ export default defineComponent({
 
       return Object.values(groupedData);
     },
-    async searchCity(city, id: String): Promise<void> {
+    async getWeather(city, id: String): Promise<void> {
       this.isLoading = true;
 
       if (city !== '') {
@@ -243,7 +242,9 @@ export default defineComponent({
               '&lon=' +
               city.lon +
               '&units=metric&APPID=' +
-              this.openweathermapApiKey
+              this.openweathermapApiKey +
+              '&lang=' +
+              this.$i18n.locale
           );
 
           const data = await response.json();
@@ -263,7 +264,7 @@ export default defineComponent({
             city.local_names,
             city.lat,
             city.lon,
-            data.weather[0].main,
+            data.weather[0].description,
             data.main.temp,
             data.main.temp_max,
             data.main.temp_min,

@@ -47,9 +47,9 @@ export const useCitiesStore = defineStore('cities', {
     ) {
       this.weatherData.push({
         id: id,
-        cityName: city,
+        name: city,
         stateName: state,
-        countryAbbreviation: country,
+        country: country,
         localNames: local_names,
         lat: latitude,
         lon: longitude,
@@ -78,9 +78,9 @@ export const useCitiesStore = defineStore('cities', {
         return item.id === id
           ? {
               id: id,
-              cityName: city,
+              name: city,
               stateName: state,
-              countryAbbreviation: country,
+              country: country,
               localNames: local_names,
               lat: latitude,
               lon: longitude,

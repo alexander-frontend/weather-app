@@ -42,7 +42,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'Search',
   components: {},
-  emits: ['search-city'],
+  emits: ['get-weather'],
   props: {
     city: {},
   },
@@ -113,7 +113,7 @@ export default defineComponent({
       // save the weather data to the Pinia data store
       this.clearSearchQuery();
       this.searchResults = [];
-      this.$emit('search-city', city, this.city.id);
+      this.$emit('get-weather', city, this.city.id);
     },
   },
 });
