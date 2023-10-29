@@ -68,9 +68,12 @@ export default defineComponent({
       }
     },
     isFavorite(city) {
-      return this.cityStore.favorites.some(
-        (item) => JSON.stringify(item.name) === JSON.stringify(city.name)
-      );
+      return this.cityStore.favorites.some((item) => {
+        const itemNameObj = { df: item.name, ddf: item.stateName };
+        const cityNameObj = { df: city.name, ddf: city.stateName };
+
+        return JSON.stringify(itemNameObj) === JSON.stringify(cityNameObj);
+      });
     },
     handleEventOpenModal(message, cancel, callback) {
       eventbus.emit('open-modal', {
