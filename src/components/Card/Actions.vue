@@ -68,12 +68,11 @@ export default defineComponent({
       }
     },
     isFavorite(city) {
-      return this.cityStore.favorites.some((item) => {
-        const itemNameObj = { df: item.name, ddf: item.stateName };
-        const cityNameObj = { df: city.name, ddf: city.stateName };
-
-        return JSON.stringify(itemNameObj) === JSON.stringify(cityNameObj);
-      });
+      return this.cityStore.favorites.some(
+        (item) =>
+          JSON.stringify({ name: item.name, state: item.stateName }) ===
+          JSON.stringify({ name: city.name, state: city.stateName })
+      );
     },
     handleEventOpenModal(message, cancel, callback) {
       eventbus.emit('open-modal', {

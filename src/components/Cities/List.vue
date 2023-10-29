@@ -136,7 +136,7 @@ export default defineComponent({
         const value = await data[0];
 
         if ('state' in value) {
-          state = value.state;
+          state = value.state || '';
         }
 
         // save the weather data to the Pinia data store

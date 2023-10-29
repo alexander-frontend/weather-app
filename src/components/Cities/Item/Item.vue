@@ -259,7 +259,7 @@ export default defineComponent({
           this.cityStore.updateCity(
             id,
             city.name,
-            city.state,
+            city.state || '',
             city.country,
             city.local_names,
             city.lat,
