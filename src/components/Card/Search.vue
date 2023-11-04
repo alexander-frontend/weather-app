@@ -5,7 +5,7 @@
         type="text"
         v-model="searchQuery"
         :placeholder="$t('Search')"
-        @input="getSearchResults"
+        @input="getSearchResultsHandler"
       />
 
       <ul
@@ -38,6 +38,7 @@
 <script lang="ts">
 import { useCitiesStore } from '@/store/WeatherDataStore';
 import { defineComponent, ref } from 'vue';
+import debounce from '@/helpers/debounce';
 
 export default defineComponent({
   name: 'Search',
@@ -64,7 +65,7 @@ export default defineComponent({
     };
   },
   data() {
-    return {};
+    return { getSearchResultsHandler: debounce(this.getSearchResults) };
   },
   computed: {
     searchCities() {
@@ -76,30 +77,26 @@ export default defineComponent({
     },
   },
   methods: {
-    getSearchResults() {
-      clearTimeout(this.queryTimeout);
+    async getSearchResults() {
+      if (this.searchQuery !== '') {
+        try {
+          const result = await fetch(
+            `https://api.openweathermap.org/geo/1.0/direct?q=${
+              this.searchQuery
+            }&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
+          );
 
-      this.queryTimeout = window.setTimeout(async () => {
-        if (this.searchQuery !== '') {
-          try {
-            const result = await fetch(
-              `https://api.openweathermap.org/geo/1.0/direct?q=${
-                this.searchQuery
-              }&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`
-            );
+          const data = await result.json();
 
-            const data = await result.json();
-
-            this.searchResults = data;
-          } catch {
-            this.searchError = true;
-          }
-
-          return;
+          this.searchResults = data;
+        } catch {
+          this.searchError = true;
         }
 
-        this.searchResults = [];
-      }, 300);
+        return;
+      }
+
+      this.searchResults = [];
     },
     clearSearchQuery() {
       this.searchQuery = '';
@@ -144,7 +141,7 @@ export default defineComponent({
   color: black;
   li {
     padding: 0.6rem 1rem;
-    border: 1px solid #c8e6e8;
+    border: 1px solid $color-light-blue;
     text-align: left;
     font-size: 1.4rem;
     cursor: pointer;

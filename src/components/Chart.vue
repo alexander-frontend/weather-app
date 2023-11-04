@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { Chart } from 'chart.js/auto';
 import moment from 'moment';
 
@@ -15,7 +15,9 @@ export default defineComponent({
     forecast: {},
   },
   data() {
-    return {};
+    return {
+      chart: ref({}),
+    };
   },
   computed: {
     labels() {
@@ -27,6 +29,15 @@ export default defineComponent({
       return this.forecast.map((item) => Math.round(item.main.temp));
     },
   },
+  watch: {
+    forecast: {
+      handler() {
+        this.chart.destroy();
+        this.initChart();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.initChart();
   },
@@ -34,7 +45,7 @@ export default defineComponent({
     initChart() {
       const ctx = <CanvasRenderingContext2D>this.$refs.chart;
 
-      new Chart(ctx, {
+      this.chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.labels,

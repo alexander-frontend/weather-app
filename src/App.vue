@@ -16,11 +16,12 @@
 import { ref, defineComponent } from 'vue';
 import Header from '../src/components/Base/Header.vue';
 import Footer from '../src/components/Base/Footer.vue';
+import constants from '@/helpers/constants';
 
 export default defineComponent({
   data() {
     return {
-      title: ref('Weather App'),
+      title: constants.title,
     };
   },
   setup() {},

@@ -33,30 +33,26 @@ export default defineComponent({
   data() {
     return {
       isOpen: false,
-      resolveCallback: null,
-      rejectCallback: null,
+      confirmAction: {} as any,
+      cancelAction: {} as any,
     };
   },
-  computed: {},
-  mounted() {},
   methods: {
     openModal() {
       this.isOpen = true;
 
-      return new Promise((resolve, reject) => {
-        this.resolveCallback = resolve;
-        this.rejectCallback = reject;
+      return new Promise<void>((resolve, reject) => {
+        this.confirmAction = () => {
+          this.isOpen = false;
+
+          resolve();
+        };
+        this.cancelAction = () => {
+          this.isOpen = false;
+
+          reject();
+        };
       });
-    },
-    confirmAction() {
-      this.isOpen = false;
-
-      this.resolveCallback();
-    },
-    cancelAction() {
-      this.isOpen = false;
-
-      this.rejectCallback();
     },
   },
 });
@@ -95,11 +91,11 @@ export default defineComponent({
   }
 
   .btn-yes {
-    background-color: #dbf0e4;
+    background-color: $color-light-cyan;
   }
 
   .btn-no {
-    background-color: #f5a79e;
+    background-color: $color-light-gray-shade;
     margin-left: 1rem;
   }
 }

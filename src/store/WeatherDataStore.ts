@@ -7,10 +7,6 @@ export const useCitiesStore = defineStore('cities', {
     weatherData: ref([]),
     favorites: ref(JSON.parse(localStorage.getItem('favorites'))) || ref([]),
     language: 'en',
-    // Max cities
-    maxCities: 5,
-    // Min cities
-    minCities: 1,
   }),
 
   // getters return data from the data store

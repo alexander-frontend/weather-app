@@ -57,31 +57,27 @@
     <div class="city-item-right">
       <h2>{{ $t('Forecast') }}</h2>
 
-      <Loader v-if="isLoading" />
+      <div class="chart-type d-flex align-items-center">
+        <button
+          :class="{ 'is-active': chartType === 'day' }"
+          class="btn"
+          @click="() => (chartType = 'day')"
+        >
+          {{ $t('Day') }}
+        </button>
+        <button
+          :class="{ 'is-active': chartType === 'five_days' }"
+          class="btn"
+          @click="() => (chartType = 'five_days')"
+        >
+          {{ $t('5_days') }}
+        </button>
+      </div>
 
-      <template v-else>
-        <div class="chart-type d-flex align-items-center">
-          <button
-            :class="{ 'is-active': chartType === 'day' }"
-            class="btn"
-            @click="() => (chartType = 'day')"
-          >
-            {{ $t('Day') }}
-          </button>
-          <button
-            :class="{ 'is-active': chartType === 'five_days' }"
-            class="btn"
-            @click="() => (chartType = 'five_days')"
-          >
-            {{ $t('5_days') }}
-          </button>
-        </div>
+      <template v-if="forecast.length">
+        <Chart v-if="chartType === 'day'" :forecast="forecast[0]" />
 
-        <template v-if="forecast.length">
-          <Chart v-if="chartType === 'day'" :forecast="forecast[0]" />
-
-          <DailyForecastList v-else :forecast="forecast" />
-        </template>
+        <DailyForecastList v-else :forecast="forecast" />
       </template>
     </div>
   </div>
@@ -96,6 +92,7 @@ import Chart from '@/components/Chart.vue';
 import Loader from '@/components/Loader.vue';
 import Actions from '@/components/Card/Actions.vue';
 import eventbus from '@/eventbus/index';
+import constants from '@/helpers/constants';
 
 export default defineComponent({
   name: 'Item',
@@ -146,7 +143,7 @@ export default defineComponent({
     showRemoveBtn() {
       return (
         this.$route.path === '/weather-app/' &&
-        this.cityStore.getNumberOfCities == this.cityStore.minCities
+        this.cityStore.getNumberOfCities == constants.min_cities_count
       );
     },
   },
@@ -270,8 +267,6 @@ export default defineComponent({
             data.main.temp_min,
             data.main.feels_like
           );
-
-          this.weatherRequest(city);
         } catch (error) {
           // handle error
           this.messageType = 'Error';
@@ -280,6 +275,8 @@ export default defineComponent({
           console.log(error);
         }
       }
+
+      this.weatherRequest(city);
     },
   },
 });

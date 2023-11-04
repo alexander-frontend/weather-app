@@ -15,7 +15,7 @@
         class="add-button"
         v-if="
           cityStore.getNumberOfCities &&
-          cityStore.getNumberOfCities < cityStore.maxCities &&
+          cityStore.getNumberOfCities < constants.max_cities_count &&
           $route.path == '/weather-app'
         "
       >
@@ -32,6 +32,7 @@ import Modal from '@/components/Modal.vue';
 import Loader from '@/components/Loader.vue';
 import Item from '@/components/Cities/Item/Item.vue';
 import eventbus from '@/eventbus';
+import constants from '@/helpers/constants';
 
 export default defineComponent({
   name: 'List',
@@ -47,7 +48,7 @@ export default defineComponent({
 
     const forecast = ref([]);
 
-    return { apiKey, cityStore, forecast };
+    return { apiKey, cityStore, forecast, constants };
   },
   props: {
     cities: Array,
@@ -63,6 +64,7 @@ export default defineComponent({
       openweathermapApiKey: '',
       modalMessage: '',
       modalCancel: false,
+      constants,
     };
   },
   created() {
@@ -89,7 +91,7 @@ export default defineComponent({
     openModalHandler(event) {
       this.openModal(event.message, event.cancel, event.callback);
     },
-    openModal(message: string, cancel, callback?) {
+    openModal(message: string, cancel: boolean, callback?: Function) {
       this.modalMessage = message;
       this.modalCancel = cancel;
 
@@ -104,17 +106,18 @@ export default defineComponent({
     },
     async addCity() {
       const url = 'https://freeipapi.com/api/json/';
+      let data;
 
       try {
         const response = await fetch(url);
-        const data = await response.json();
-
-        this.weatherLocation(data);
+        data = await response.json();
       } catch (err) {
         console.error(err);
       }
+
+      this.getWeather(data);
     },
-    async weatherLocation(data) {
+    async getWeather(data) {
       const { latitude, longitude, cityName, countryName } = data;
 
       const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.openweathermapApiKey}&units=metric&lang=${this.$i18n.locale}`;
@@ -123,20 +126,18 @@ export default defineComponent({
 
       try {
         /**
-         * Promise [currentWeather, Forecast]
+         * Promise [currentWeather]
          */
-        const resolve = await Promise.all([fetch(urlWeather)]);
+        const response = await fetch(urlWeather);
 
-        if (resolve[0].status == 404) {
+        if (response.status == 404) {
           throw 'City not found';
         }
 
-        const data = resolve.map((response) => response.json());
+        const data = await response.json();
 
-        const value = await data[0];
-
-        if ('state' in value) {
-          state = value.state || '';
+        if ('state' in data) {
+          state = data.state || '';
         }
 
         // save the weather data to the Pinia data store
@@ -146,13 +147,13 @@ export default defineComponent({
           state,
           countryName,
           {},
-          value.coord.lat,
-          value.coord.lon,
-          value.weather[0].description,
-          value.main.temp,
-          value.main.temp_max,
-          value.main.temp_min,
-          value.main.feels_like
+          data.coord.lat,
+          data.coord.lon,
+          data.weather[0].description,
+          data.main.temp,
+          data.main.temp_max,
+          data.main.temp_min,
+          data.main.feels_like
         );
       } catch (err) {
         console.error(err);

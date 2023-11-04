@@ -5,7 +5,9 @@
         <IconsRemove />
       </button>
     </template>
-    <template v-else-if="cityStore.getNumberOfCities > cityStore.minCities">
+    <template
+      v-else-if="cityStore.getNumberOfCities > constants.min_cities_count"
+    >
       <button class="remove-button" @click="removeCity(city.id)">
         <IconsRemove />
       </button>
@@ -29,6 +31,7 @@ import IconsFavorite from '@/components/Icons/Favorite.vue';
 import IconsRemove from '@/components/Icons/Remove.vue';
 import { useCitiesStore } from '@/store/WeatherDataStore';
 import eventbus from '@/eventbus/index';
+import constants from '@/helpers/constants';
 
 export default defineComponent({
   name: 'Actions',
@@ -48,7 +51,7 @@ export default defineComponent({
     index: Number,
   },
   data() {
-    return {};
+    return { constants };
   },
   computed: {},
   mounted() {},
@@ -58,7 +61,7 @@ export default defineComponent({
         return;
       }
 
-      if (this.cityStore.getNumberOfFavorites < this.cityStore.maxCities) {
+      if (this.cityStore.getNumberOfFavorites < constants.max_cities_count) {
         this.cityStore.addToFavorite(city);
       } else {
         eventbus.emit('open-modal', {
@@ -74,7 +77,7 @@ export default defineComponent({
           JSON.stringify({ name: city.name, state: city.stateName })
       );
     },
-    handleEventOpenModal(message, cancel, callback) {
+    handleEventOpenModal(message: String, cancel: Boolean, callback: {}) {
       eventbus.emit('open-modal', {
         message: message,
         cancel: cancel,
@@ -103,14 +106,14 @@ export default defineComponent({
 .city-action-btns {
   button {
     margin-left: 1rem;
-    fill: #aaa;
-    color: #aaa;
+    fill: $color-light-blue-shade;
+    color: $color-light-blue-shade;
     transition: all 0.3s ease-out;
 
     &.is-active,
     &:hover {
-      fill: red;
-      color: red;
+      fill: $color-red;
+      color: $color-red;
     }
   }
 }
