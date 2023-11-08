@@ -8,6 +8,7 @@
 import { defineComponent, ref } from 'vue';
 import { Chart } from 'chart.js/auto';
 import moment from 'moment';
+import { ChartConfiguration } from 'chart.js';
 
 export default defineComponent({
   name: 'Chart',
@@ -17,7 +18,6 @@ export default defineComponent({
   data() {
     return {
       chart: ref({}),
-      reloadChart: Function,
     };
   },
   computed: {
@@ -41,10 +41,11 @@ export default defineComponent({
     this.initChart();
   },
   methods: {
+    reloadChart() {},
     initChart() {
       const ctx = <CanvasRenderingContext2D>this.$refs.chart;
 
-      const config = {
+      const config: ChartConfiguration = {
         type: 'line',
         data: {
           labels: this.labels,
