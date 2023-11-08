@@ -142,6 +142,7 @@ export default defineComponent({
   li {
     padding: 0.6rem 1rem;
     border: 1px solid $color-light-blue;
+    transition: all 0.3s ease-out;
     text-align: left;
     font-size: 1.4rem;
     cursor: pointer;
@@ -158,6 +159,9 @@ export default defineComponent({
     }
     &.not-found {
       cursor: default;
+    }
+    &:hover {
+      background: $color-light-gray-shade;
     }
   }
 }

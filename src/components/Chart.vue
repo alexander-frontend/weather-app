@@ -60,6 +60,9 @@ export default defineComponent({
           ],
         },
         options: {
+          animation: {
+            duration: 500,
+          },
           scales: {
             y: {
               beginAtZero: true,

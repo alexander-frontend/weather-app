@@ -115,6 +115,10 @@ export default defineComponent({
       fill: $color-red;
       color: $color-red;
     }
+
+    &.is-active:hover {
+      cursor: default;
+    }
   }
 }
 </style>

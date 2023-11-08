@@ -338,7 +338,7 @@ export default defineComponent({
         width: 100%;
         margin: 0;
         padding: 2rem;
-        min-height: auto;
+        min-height: 30rem;
         &:first-child {
           margin-bottom: 1rem;
         }
