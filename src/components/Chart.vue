@@ -17,6 +17,7 @@ export default defineComponent({
   data() {
     return {
       chart: ref({}),
+      reloadChart: Function,
     };
   },
   computed: {
@@ -32,10 +33,8 @@ export default defineComponent({
   watch: {
     forecast: {
       handler() {
-        this.chart.destroy();
-        this.initChart();
+        this.reloadChart();
       },
-      deep: true,
     },
   },
   mounted() {
@@ -45,7 +44,7 @@ export default defineComponent({
     initChart() {
       const ctx = <CanvasRenderingContext2D>this.$refs.chart;
 
-      this.chart = new Chart(ctx, {
+      const config = {
         type: 'line',
         data: {
           labels: this.labels,
@@ -61,7 +60,7 @@ export default defineComponent({
         },
         options: {
           animation: {
-            duration: 500,
+            duration: 1000,
           },
           scales: {
             y: {
@@ -74,7 +73,14 @@ export default defineComponent({
             },
           },
         },
-      });
+      };
+
+      let chart = new Chart(ctx, config);
+
+      this.reloadChart = () => {
+        chart.destroy();
+        chart = new Chart(ctx, config);
+      };
     },
   },
 });
